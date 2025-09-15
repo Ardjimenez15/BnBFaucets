@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNB Faucet</title>
+    <!-- Include Tailwind CSS CDN for modern and responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link to the separated CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex flex-col items-center min-h-screen bg-gray-900 p-4">
+
+    <!-- Header with main title -->
+    <header class="w-full max-w-screen-lg mb-6 text-center">
+        <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-2">BNB Faucet</h1>
+        <p class="text-lg text-gray-400">
+            Tu faucet de prueba de BNB.
+        </p>
+    </header>
+
+    <!-- Ad space (top horizontal) -->
+    <div class="w-full max-w-screen-lg bg-gray-700 h-20 md:h-24 rounded-lg flex items-center justify-center text-gray-400 text-sm md:text-base mb-6">
+        Espacio para anuncio (728x90)
+    </div>
+
+    <!-- Main container for the faucet card and vertical ads -->
+    <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8 w-full max-w-screen-lg">
+        
+        <!-- Ad space (left vertical) -->
+        <div class="hidden md:block w-full md:w-64 h-48 md:h-[400px] mt-6 md:mt-0 rounded-lg flex items-center justify-center text-gray-400 text-sm bg-gray-700 mx-auto">
+            Espacio para anuncio (300x250)
+        </div>
+
+        <!-- Main container with tabs -->
+        <div class="flex flex-col flex-grow w-full card-container p-0 rounded-2xl shadow-2xl border border-gray-700">
+            <!-- Tab bar -->
+            <div class="flex border-b border-gray-700 rounded-t-2xl overflow-hidden">
+                <div id="tab-faucet" class="tab-btn active font-bold text-center flex-grow">
+                    Faucet
+                </div>
+                <div id="tab-history" class="tab-btn inactive font-bold text-center flex-grow">
+                    Historial de Reclamos
+                </div>
+                <div id="tab-dice" class="tab-btn inactive font-bold text-center flex-grow">
+                    Tirar dado
+                </div>
+            </div>
+
+            <!-- Tab content -->
+            <div id="content-faucet" class="p-8 text-center">
+                <div class="flex flex-col items-center">
+                    <!-- Coin icon (example SVG) -->
+                    <svg class="w-16 h-16 text-yellow-400 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM9 16c-.552 0-1-.448-1-1v-6c0-1.105.895-2 2-2h4c1.105 0 2 .895 2 2v6c0 .552-.448 1-1 1h-2c-.552 0-1-.448-1-1v-2h-2v2c0 .552-.448 1-1 1zm2-4h2v-2h-2v2z"/>
+                    </svg>
+                    <p class="text-base text-gray-400 mb-8">
+                        Simulador de faucet. Introduce tu dirección de billetera para reclamar BNB de prueba.
+                    </p>
+                </div>
+
+                <!-- Form section -->
+                <div class="mb-6">
+                    <label for="wallet-address" class="block text-sm font-medium text-gray-300 mb-2">
+                        Dirección de la billetera
+                    </label>
+                    <input type="text" id="wallet-address" name="wallet-address" placeholder="Ej: 0x1a2b3c..."
+                        class="block w-full px-4 py-2.5 rounded-xl border-2 border-gray-600 bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-colors duration-200"
+                        required>
+                </div>
+                
+                <!-- reCAPTCHA simulation -->
+                <div id="recaptcha-check" class="recaptcha-box mb-6 mx-auto">
+                    <div id="recaptcha-checkbox" class="w-6 h-6 border-2 border-gray-500 bg-white rounded flex items-center justify-center mr-4 transition-colors duration-200">
+                        <svg id="recaptcha-icon" class="w-4 h-4 text-green-500 opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="text-gray-300 text-sm">No soy un robot</span>
+                </div>
+                
+                <!-- Math captcha -->
+                <div id="math-captcha-container" class="mb-6">
+                    <label for="math-captcha-input" class="block text-sm font-medium text-gray-300 mb-2">
+                        Verificación Anti-bot
+                    </label>
+                    <div class="flex items-center space-x-2 justify-center">
+                        <span id="math-problem" class="text-lg font-bold text-gray-100"></span>
+                        <input type="text" id="math-captcha-input" placeholder="Tu respuesta"
+                            class="block w-full max-w-xs px-4 py-2.5 rounded-xl border-2 border-gray-600 bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-colors duration-200">
+                    </div>
+                </div>
+
+                <!-- Claim button -->
+                <button id="claim-button"
+                    class="w-full py-3 px-6 rounded-xl font-semibold text-lg text-white bg-yellow-500 hover:bg-yellow-600 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg transform active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed">
+                    Reclamar 0.1 BNB
+                </button>
+
+                <!-- Status message area -->
+                <div id="status-message" class="mt-6 text-sm font-medium text-gray-300">
+                    <!-- Messages will be inserted here dynamically -->
+                </div>
+            </div>
+
+            <!-- History tab content -->
+            <div id="content-history" class="p-6 text-center hidden">
+                <h2 class="text-xl font-bold text-gray-100 mb-4">Historial de Reclamos</h2>
+                <div class="overflow-x-auto rounded-lg">
+                    <table class="min-w-full bg-gray-700 text-gray-200">
+                        <thead class="bg-gray-600 border-b border-gray-500">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    Dirección de Billetera
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    Cantidad
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    Fecha
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="claim-history-table-body" class="divide-y divide-gray-600">
+                            <!-- Rows will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <p id="no-history-message" class="mt-4 text-gray-400 hidden">
+                    Aún no hay reclamos en el historial.
+                </p>
+            </div>
+
+            <!-- Dice tab content -->
+            <div id="content-dice" class="p-8 text-center hidden">
+                <div class="flex flex-col items-center justify-center">
+                    <h2 class="text-xl font-bold text-gray-100 mb-4">Tirar el dado</h2>
+                    <p class="text-base text-gray-400 mb-6">
+                        Haz clic en el botón para tirar un dado y obtener un número aleatorio del 1 al 6.
+                    </p>
+                    <div id="dice-result" class="dice-display text-gray-200 mb-6">
+                        🎲
+                    </div>
+                    <button id="roll-button"
+                        class="w-full py-3 px-6 rounded-xl font-semibold text-lg text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed">
+                        ¡Tirar!
+                    </button>
+                    <div id="dice-cooldown-message" class="mt-4 text-sm font-medium text-gray-300">
+                        <!-- Dice cooldown messages -->
+                    </div>
+                    <div id="dice-message" class="mt-2 text-sm font-medium text-gray-300">
+                        <!-- Dice roll messages will be inserted here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ad space (right vertical) -->
+        <div class="w-full md:w-64 h-48 md:h-[400px] mt-6 md:mt-0 rounded-lg flex items-center justify-center text-gray-400 text-sm bg-gray-700 mx-auto">
+            Espacio para anuncio (300x250)
+        </div>
+
+    </div>
+
+    <!-- Ad space (bottom horizontal) -->
+    <div class="w-full max-w-screen-lg bg-gray-700 h-20 md:h-24 rounded-lg flex items-center justify-center text-gray-400 text-sm md:text-base mt-6">
+        Espacio para anuncio (728x90)
+    </div>
+
+    <!-- Verification pop-up (initially hidden) -->
+    <div id="dice-modal" class="modal-overlay hidden">
+        <div class="modal-content text-gray-200">
+            <h3 class="text-xl font-bold mb-4 text-center">Verificación de seguridad</h3>
+            
+            <!-- Small horizontal ad space -->
+            <div class="w-full bg-gray-700 h-16 rounded-lg flex items-center justify-center text-gray-400 text-xs mb-4">
+                Anuncio (468x60)
+            </div>
+
+            <p class="text-sm text-center text-gray-400 mb-6">
+                Por favor, completa el siguiente reCAPTCHA para continuar.
+            </p>
+
+            <!-- Pop-up reCAPTCHA simulation -->
+            <div id="popup-recaptcha-check" class="recaptcha-box mb-6 mx-auto">
+                <div id="popup-recaptcha-checkbox" class="w-6 h-6 border-2 border-gray-500 bg-white rounded flex items-center justify-center mr-4 transition-colors duration-200">
+                    <svg id="popup-recaptcha-icon" class="w-4 h-4 text-green-500 opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <span class="text-gray-300 text-sm">No soy un robot</span>
+            </div>
+
+            <!-- Pop-up math captcha -->
+            <div id="popup-math-captcha-container" class="mb-6">
+                <label for="popup-math-captcha-input" class="block text-sm font-medium text-gray-300 mb-2">
+                    Verificación Anti-bot
+                </label>
+                <div class="flex items-center space-x-2 justify-center">
+                    <span id="popup-math-problem" class="text-lg font-bold text-gray-100"></span>
+                    <input type="text" id="popup-math-captcha-input" placeholder="Tu respuesta"
+                        class="block w-full max-w-xs px-4 py-2.5 rounded-xl border-2 border-gray-600 bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-colors duration-200">
+                </div>
+            </div>
+
+            <!-- Confirmation button -->
+            <button id="popup-confirm-button"
+                class="w-full py-3 px-6 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed">
+                Confirmar
+            </button>
+            <div id="popup-message" class="mt-4 text-sm font-medium text-gray-300"></div>
+        </div>
+    </div>
+
+    <!-- Link to the separated JS file -->
+    <script src="script.js"></script>
+</body>
+</html>
