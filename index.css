@@ -1,0 +1,79 @@
+/* Main body and card container styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1a202c; /* Dark background */
+}
+
+.card-container {
+    max-width: 90%;
+    background-color: #2d3748; /* Darker card container */
+}
+
+@media (min-width: 640px) {
+    .card-container {
+        max-width: 500px;
+    }
+}
+
+/* reCAPTCHA simulation box styles */
+.recaptcha-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #4a5568;
+    background-color: #4a5568;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.recaptcha-box:hover {
+    border-color: #a0aec0;
+}
+
+/* Tab button styles */
+.tab-btn {
+    border-radius: 0.75rem 0.75rem 0 0;
+    padding: 1rem 1.5rem;
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background-color: #2d3748;
+    color: #fbd38d;
+}
+
+.tab-btn.inactive {
+    background-color: #4a5568;
+    color: #a0aec0;
+}
+
+/* Dice display font size */
+.dice-display {
+    font-size: 8rem;
+    line-height: 1;
+}
+
+/* Pop-up modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: #2d3748;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
