@@ -4,18 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BNB Faucet</title>
-    <!-- Include Tailwind CSS CDN for modern and responsive styling -->
+    <!-- Incluye el CDN de Tailwind CSS para un estilo moderno y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Inter for a clean look -->
+    <!-- Fuente Inter para un aspecto limpio -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Link to the separated CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Fondo oscuro */
+        }
+        .card-container {
+            max-width: 90%;
+            background-color: #2d3748; /* Contenedor de tarjeta más oscuro */
+        }
+        @media (min-width: 640px) {
+            .card-container {
+                max-width: 500px;
+            }
+        }
+        /* Estilo para la simulación de reCAPTCHA */
+        .recaptcha-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #4a5568;
+            background-color: #4a5568;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .recaptcha-box:hover {
+            border-color: #a0aec0;
+        }
+        .tab-btn {
+            border-radius: 0.75rem 0.75rem 0 0;
+            padding: 1rem 1.5rem;
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background-color: #2d3748;
+            color: #fbd38d;
+        }
+        .tab-btn.inactive {
+            background-color: #4a5568;
+            color: #a0aec0;
+        }
+        .dice-display {
+            font-size: 8rem;
+            line-height: 1;
+        }
+        /* Estilos para el pop-up */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: #2d3748;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body class="flex flex-col items-center min-h-screen bg-gray-900 p-4">
 
-    <!-- Header with main title -->
+    <!-- Encabezado con título principal -->
     <header class="w-full max-w-screen-lg mb-6 text-center">
         <h1 class="text-4xl sm:text-5xl font-bold text-gray-100 mb-2">BNB Faucet</h1>
         <p class="text-lg text-gray-400">
@@ -23,22 +89,22 @@
         </p>
     </header>
 
-    <!-- Ad space (top horizontal) -->
+    <!-- Espacio para anuncio horizontal (superior) -->
     <div class="w-full max-w-screen-lg bg-gray-700 h-20 md:h-24 rounded-lg flex items-center justify-center text-gray-400 text-sm md:text-base mb-6">
         Espacio para anuncio (728x90)
     </div>
 
-    <!-- Main container for the faucet card and vertical ads -->
+    <!-- Contenedor principal para la tarjeta de la faucet y los anuncios verticales -->
     <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8 w-full max-w-screen-lg">
         
-        <!-- Ad space (left vertical) -->
+        <!-- Espacio para anuncio vertical (izquierda) -->
         <div class="hidden md:block w-full md:w-64 h-48 md:h-[400px] mt-6 md:mt-0 rounded-lg flex items-center justify-center text-gray-400 text-sm bg-gray-700 mx-auto">
             Espacio para anuncio (300x250)
         </div>
 
-        <!-- Main container with tabs -->
+        <!-- Contenedor principal con pestañas -->
         <div class="flex flex-col flex-grow w-full card-container p-0 rounded-2xl shadow-2xl border border-gray-700">
-            <!-- Tab bar -->
+            <!-- Barra de pestañas -->
             <div class="flex border-b border-gray-700 rounded-t-2xl overflow-hidden">
                 <div id="tab-faucet" class="tab-btn active font-bold text-center flex-grow">
                     Faucet
@@ -51,10 +117,10 @@
                 </div>
             </div>
 
-            <!-- Tab content -->
+            <!-- Contenido de las pestañas -->
             <div id="content-faucet" class="p-8 text-center">
                 <div class="flex flex-col items-center">
-                    <!-- Coin icon (example SVG) -->
+                    <!-- Icono de la moneda (SVG de ejemplo) -->
                     <svg class="w-16 h-16 text-yellow-400 mb-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM9 16c-.552 0-1-.448-1-1v-6c0-1.105.895-2 2-2h4c1.105 0 2 .895 2 2v6c0 .552-.448 1-1 1h-2c-.552 0-1-.448-1-1v-2h-2v2c0 .552-.448 1-1 1zm2-4h2v-2h-2v2z"/>
                     </svg>
@@ -63,7 +129,7 @@
                     </p>
                 </div>
 
-                <!-- Form section -->
+                <!-- Sección de formulario -->
                 <div class="mb-6">
                     <label for="wallet-address" class="block text-sm font-medium text-gray-300 mb-2">
                         Dirección de la billetera
@@ -73,7 +139,7 @@
                         required>
                 </div>
                 
-                <!-- reCAPTCHA simulation -->
+                <!-- Simulación del reCAPTCHA -->
                 <div id="recaptcha-check" class="recaptcha-box mb-6 mx-auto">
                     <div id="recaptcha-checkbox" class="w-6 h-6 border-2 border-gray-500 bg-white rounded flex items-center justify-center mr-4 transition-colors duration-200">
                         <svg id="recaptcha-icon" class="w-4 h-4 text-green-500 opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
@@ -83,7 +149,7 @@
                     <span class="text-gray-300 text-sm">No soy un robot</span>
                 </div>
                 
-                <!-- Math captcha -->
+                <!-- Captcha matemático -->
                 <div id="math-captcha-container" class="mb-6">
                     <label for="math-captcha-input" class="block text-sm font-medium text-gray-300 mb-2">
                         Verificación Anti-bot
@@ -95,19 +161,19 @@
                     </div>
                 </div>
 
-                <!-- Claim button -->
+                <!-- Botón para reclamar -->
                 <button id="claim-button"
                     class="w-full py-3 px-6 rounded-xl font-semibold text-lg text-white bg-yellow-500 hover:bg-yellow-600 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg transform active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed">
                     Reclamar 0.1 BNB
                 </button>
 
-                <!-- Status message area -->
+                <!-- Área para mostrar el estado o mensajes -->
                 <div id="status-message" class="mt-6 text-sm font-medium text-gray-300">
-                    <!-- Messages will be inserted here dynamically -->
+                    <!-- Los mensajes se insertarán aquí dinámicamente -->
                 </div>
             </div>
 
-            <!-- History tab content -->
+            <!-- Contenido del historial -->
             <div id="content-history" class="p-6 text-center hidden">
                 <h2 class="text-xl font-bold text-gray-100 mb-4">Historial de Reclamos</h2>
                 <div class="overflow-x-auto rounded-lg">
@@ -126,7 +192,7 @@
                             </tr>
                         </thead>
                         <tbody id="claim-history-table-body" class="divide-y divide-gray-600">
-                            <!-- Rows will be inserted here dynamically -->
+                            <!-- Las filas se insertarán aquí dinámicamente -->
                         </tbody>
                     </table>
                 </div>
@@ -135,7 +201,7 @@
                 </p>
             </div>
 
-            <!-- Dice tab content -->
+            <!-- Contenido del dado -->
             <div id="content-dice" class="p-8 text-center hidden">
                 <div class="flex flex-col items-center justify-center">
                     <h2 class="text-xl font-bold text-gray-100 mb-4">Tirar el dado</h2>
@@ -150,33 +216,33 @@
                         ¡Tirar!
                     </button>
                     <div id="dice-cooldown-message" class="mt-4 text-sm font-medium text-gray-300">
-                        <!-- Dice cooldown messages -->
+                        <!-- Mensajes de cooldown del dado -->
                     </div>
                     <div id="dice-message" class="mt-2 text-sm font-medium text-gray-300">
-                        <!-- Dice roll messages will be inserted here dynamically -->
+                        <!-- Los mensajes de la tirada se insertarán aquí dinámicamente -->
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Ad space (right vertical) -->
+        <!-- Espacio para anuncio vertical (derecha) -->
         <div class="w-full md:w-64 h-48 md:h-[400px] mt-6 md:mt-0 rounded-lg flex items-center justify-center text-gray-400 text-sm bg-gray-700 mx-auto">
             Espacio para anuncio (300x250)
         </div>
 
     </div>
 
-    <!-- Ad space (bottom horizontal) -->
+    <!-- Espacio para anuncio horizontal (inferior) -->
     <div class="w-full max-w-screen-lg bg-gray-700 h-20 md:h-24 rounded-lg flex items-center justify-center text-gray-400 text-sm md:text-base mt-6">
         Espacio para anuncio (728x90)
     </div>
 
-    <!-- Verification pop-up (initially hidden) -->
+    <!-- Pop-up de verificación (inicialmente oculto) -->
     <div id="dice-modal" class="modal-overlay hidden">
         <div class="modal-content text-gray-200">
             <h3 class="text-xl font-bold mb-4 text-center">Verificación de seguridad</h3>
             
-            <!-- Small horizontal ad space -->
+            <!-- Espacio para anuncio horizontal pequeño -->
             <div class="w-full bg-gray-700 h-16 rounded-lg flex items-center justify-center text-gray-400 text-xs mb-4">
                 Anuncio (468x60)
             </div>
@@ -185,7 +251,7 @@
                 Por favor, completa el siguiente reCAPTCHA para continuar.
             </p>
 
-            <!-- Pop-up reCAPTCHA simulation -->
+            <!-- Simulación del reCAPTCHA del pop-up -->
             <div id="popup-recaptcha-check" class="recaptcha-box mb-6 mx-auto">
                 <div id="popup-recaptcha-checkbox" class="w-6 h-6 border-2 border-gray-500 bg-white rounded flex items-center justify-center mr-4 transition-colors duration-200">
                     <svg id="popup-recaptcha-icon" class="w-4 h-4 text-green-500 opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
@@ -195,7 +261,7 @@
                 <span class="text-gray-300 text-sm">No soy un robot</span>
             </div>
 
-            <!-- Pop-up math captcha -->
+            <!-- Captcha matemático del pop-up -->
             <div id="popup-math-captcha-container" class="mb-6">
                 <label for="popup-math-captcha-input" class="block text-sm font-medium text-gray-300 mb-2">
                     Verificación Anti-bot
@@ -207,7 +273,7 @@
                 </div>
             </div>
 
-            <!-- Confirmation button -->
+            <!-- Botón de confirmación -->
             <button id="popup-confirm-button"
                 class="w-full py-3 px-6 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transform active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed">
                 Confirmar
@@ -216,7 +282,362 @@
         </div>
     </div>
 
-    <!-- Link to the separated JS file -->
-    <script src="index.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const walletInput = document.getElementById('wallet-address');
+            const claimButton = document.getElementById('claim-button');
+            const statusMessage = document.getElementById('status-message');
+            const recaptchaCheck = document.getElementById('recaptcha-check');
+            const recaptchaCheckbox = document.getElementById('recaptcha-checkbox');
+            const recaptchaIcon = document.getElementById('recaptcha-icon');
+            const historyTableBody = document.getElementById('claim-history-table-body');
+            const noHistoryMessage = document.getElementById('no-history-message');
+            const mathProblemElement = document.getElementById('math-problem');
+            const mathCaptchaInput = document.getElementById('math-captcha-input');
+            
+            const tabFaucet = document.getElementById('tab-faucet');
+            const tabHistory = document.getElementById('tab-history');
+            const tabDice = document.getElementById('tab-dice');
+            const contentFaucet = document.getElementById('content-faucet');
+            const contentHistory = document.getElementById('content-history');
+            const contentDice = document.getElementById('content-dice');
+            const rollButton = document.getElementById('roll-button');
+            const diceResult = document.getElementById('dice-result');
+            const diceMessage = document.getElementById('dice-message');
+            const diceCooldownMessage = document.getElementById('dice-cooldown-message');
+
+            // Referencias a los elementos del pop-up
+            const diceModal = document.getElementById('dice-modal');
+            const popupRecaptchaCheck = document.getElementById('popup-recaptcha-check');
+            const popupRecaptchaCheckbox = document.getElementById('popup-recaptcha-checkbox');
+            const popupRecaptchaIcon = document.getElementById('popup-recaptcha-icon');
+            const popupConfirmButton = document.getElementById('popup-confirm-button');
+            const popupMessage = document.getElementById('popup-message');
+            const popupMathProblemElement = document.getElementById('popup-math-problem');
+            const popupMathCaptchaInput = document.getElementById('popup-math-captcha-input');
+
+            const COOLDOWN_KEY = 'faucet_last_claim_time';
+            const HISTORY_KEY = 'faucet_claim_history';
+            const COOLDOWN_MINUTES = 5;
+            const COOLDOWN_MS = COOLDOWN_MINUTES * 60 * 1000;
+            let recaptchaSolved = false;
+            let popupRecaptchaSolved = false;
+            
+            // Constantes para el temporizador del dado
+            const DICE_COOLDOWN_KEY = 'dice_last_roll_time';
+            const DICE_COOLDOWN_MINUTES = 5;
+            const DICE_COOLDOWN_MS = DICE_COOLDOWN_MINUTES * 60 * 1000;
+            let diceIntervalId = null;
+
+            // Variables para el captcha matemático
+            let captchaAnswer = 0;
+            let popupCaptchaAnswer = 0;
+
+            // Expresión regular para validar una dirección de billetera de Ethereum/BNB
+            const addressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
+            const diceEmojis = ['🎲', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+            // Función para mostrar mensajes de estado
+            function showMessage(text, colorClass) {
+                statusMessage.textContent = text;
+                statusMessage.className = `mt-6 text-center text-sm font-medium ${colorClass}`;
+            }
+
+            // Función para generar un nuevo problema matemático
+            function generateCaptcha() {
+                const num1 = Math.floor(Math.random() * 10) + 1;
+                const num2 = Math.floor(Math.random() * 10) + 1;
+                const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+                let result = 0;
+
+                switch (operator) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        break;
+                    case '*':
+                        result = num1 * num2;
+                        break;
+                }
+
+                return {
+                    problem: `${num1} ${operator} ${num2} =`,
+                    answer: result
+                };
+            }
+            
+            // Función para validar el captcha y habilitar el botón
+            function validateAndEnableButton() {
+                const isCaptchaCorrect = parseInt(mathCaptchaInput.value, 10) === captchaAnswer;
+                // El botón se habilita si el reCAPTCHA está marcado, la dirección es válida Y el captcha es correcto.
+                claimButton.disabled = !(recaptchaSolved && addressRegex.test(walletInput.value.trim()) && isCaptchaCorrect);
+            }
+
+            // Función para actualizar el temporizador de cuenta regresiva
+            function updateCountdown() {
+                const lastClaimTime = localStorage.getItem(COOLDOWN_KEY);
+                if (!lastClaimTime) {
+                    claimButton.textContent = `Reclamar 0.1 BNB`;
+                    validateAndEnableButton();
+                    if (recaptchaSolved) {
+                         showMessage("El temporizador ha terminado. Puedes reclamar de nuevo.", "text-green-400");
+                    } else {
+                         showMessage("Por favor, marca el reCAPTCHA y reclama.", "text-gray-400");
+                    }
+                    return;
+                }
+
+                const timeElapsed = Date.now() - parseInt(lastClaimTime, 10);
+                const timeLeft = COOLDOWN_MS - timeElapsed;
+
+                if (timeLeft <= 0) {
+                    location.reload();
+                } else {
+                    claimButton.disabled = true;
+                    const minutes = Math.floor(timeLeft / 60000);
+                    const seconds = Math.floor((timeLeft % 60000) / 1000);
+                    const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    claimButton.textContent = `En espera (${formattedTime})`;
+                    showMessage(`Por favor, espera ${COOLDOWN_MINUTES} minutos para reclamar de nuevo.`, "text-yellow-400");
+                }
+            }
+            
+            // Evento para simular la resolución del reCAPTCHA
+            recaptchaCheck.addEventListener('click', () => {
+                if (claimButton.disabled && !localStorage.getItem(COOLDOWN_KEY)) return;
+                recaptchaSolved = !recaptchaSolved;
+                if (recaptchaSolved) {
+                    recaptchaCheckbox.classList.add('bg-green-500');
+                    recaptchaIcon.classList.remove('opacity-0');
+                    validateAndEnableButton();
+                    showMessage("reCAPTCHA resuelto. ¡Puedes reclamar!", "text-green-400");
+                } else {
+                    recaptchaCheckbox.classList.remove('bg-green-500');
+                    recaptchaIcon.classList.add('opacity-0');
+                    claimButton.disabled = true;
+                    showMessage("Por favor, marca el reCAPTCHA para reclamar.", "text-gray-400");
+                }
+            });
+
+            // Validación en tiempo real del captcha
+            mathCaptchaInput.addEventListener('keyup', () => {
+                validateAndEnableButton();
+            });
+            walletInput.addEventListener('keyup', () => {
+                validateAndEnableButton();
+            });
+
+            // Función para renderizar el historial de reclamos en la tabla
+            function renderClaimHistory() {
+                const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                historyTableBody.innerHTML = '';
+                
+                if (history.length === 0) {
+                    noHistoryMessage.classList.remove('hidden');
+                } else {
+                    noHistoryMessage.classList.add('hidden');
+                    history.forEach(claim => {
+                        const row = document.createElement('tr');
+                        row.className = 'hover:bg-gray-600 transition-colors duration-200';
+                        row.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
+                                ${claim.address.substring(0, 6)}...${claim.address.substring(claim.address.length - 4)}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                ${claim.amount} BNB
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                ${claim.timestamp}
+                            </td>
+                        `;
+                        historyTableBody.appendChild(row);
+                    });
+                }
+            }
+
+            // Manejador del evento clic en el botón
+            claimButton.addEventListener('click', () => {
+                const address = walletInput.value.trim();
+                
+                claimButton.disabled = true;
+                claimButton.textContent = "Reclamando...";
+                showMessage("Simulando una transacción...", "text-yellow-400");
+                
+                setTimeout(() => {
+                    const success = Math.random() < 0.8;
+
+                    if (success) {
+                        localStorage.setItem(COOLDOWN_KEY, Date.now());
+                        updateCountdown();
+                        showMessage("¡Éxito! 0.1 BNB enviados a tu billetera simulada.", "text-green-400");
+                        
+                        const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                        const newClaim = {
+                            address: address,
+                            amount: 0.1,
+                            timestamp: new Date().toLocaleString()
+                        };
+                        history.unshift(newClaim);
+                        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+                        renderClaimHistory();
+
+                        walletInput.value = "";
+                        recaptchaSolved = false;
+                        recaptchaCheckbox.classList.remove('bg-green-500');
+                        recaptchaIcon.classList.add('opacity-0');
+                        const newCaptcha = generateCaptcha();
+                        mathProblemElement.textContent = newCaptcha.problem;
+                        captchaAnswer = newCaptcha.answer;
+                        mathCaptchaInput.value = "";
+                        validateAndEnableButton();
+
+                    } else {
+                        showMessage("Error de transacción simulada. Por favor, inténtalo de nuevo.", "text-red-400");
+                        claimButton.disabled = false;
+                        claimButton.textContent = "Reclamar 0.1 BNB";
+                    }
+                }, 2000);
+            });
+
+            // Función para actualizar el temporizador del dado
+            function updateDiceCountdown() {
+                const lastRollTime = localStorage.getItem(DICE_COOLDOWN_KEY);
+                if (!lastRollTime) {
+                    rollButton.disabled = false;
+                    rollButton.textContent = `¡Tirar!`;
+                    diceCooldownMessage.textContent = `Puedes tirar de nuevo.`;
+                    return;
+                }
+                
+                const timeElapsed = Date.now() - parseInt(lastRollTime, 10);
+                const timeLeft = DICE_COOLDOWN_MS - timeElapsed;
+
+                if (timeLeft <= 0) {
+                    location.reload();
+                } else {
+                    rollButton.disabled = true;
+                    const minutes = Math.floor(timeLeft / 60000);
+                    const seconds = Math.floor((timeLeft % 60000) / 1000);
+                    const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    rollButton.textContent = `En espera (${formattedTime})`;
+                    diceCooldownMessage.textContent = `Por favor, espera ${DICE_COOLDOWN_MINUTES} minutos para volver a tirar.`;
+                }
+            }
+            
+            function validateAndEnablePopup() {
+                const isCaptchaCorrect = parseInt(popupMathCaptchaInput.value, 10) === popupCaptchaAnswer;
+                popupConfirmButton.disabled = !(popupRecaptchaSolved && isCaptchaCorrect);
+            }
+
+            // Manejadores de eventos para las pestañas
+            function switchTab(tabToActivate, contentToShow) {
+                const allTabs = [tabFaucet, tabHistory, tabDice];
+                const allContents = [contentFaucet, contentHistory, contentDice];
+
+                allTabs.forEach(tab => {
+                    tab.classList.remove('active', 'bg-[#2d3748]', 'text-[#fbd38d]');
+                    tab.classList.add('inactive', 'bg-[#4a5568]', 'text-[#a0aec0]');
+                });
+                
+                allContents.forEach(content => content.classList.add('hidden'));
+
+                tabToActivate.classList.remove('inactive', 'bg-[#4a5568]', 'text-[#a0aec0]');
+                tabToActivate.classList.add('active', 'bg-[#2d3748]', 'text-[#fbd38d]');
+                contentToShow.classList.remove('hidden');
+
+                if (diceIntervalId) {
+                    clearInterval(diceIntervalId);
+                    diceIntervalId = null;
+                }
+                
+                if (tabToActivate === tabDice) {
+                    updateDiceCountdown();
+                    diceIntervalId = setInterval(updateDiceCountdown, 1000);
+                }
+            }
+
+            tabFaucet.addEventListener('click', () => switchTab(tabFaucet, contentFaucet));
+            tabHistory.addEventListener('click', () => switchTab(tabHistory, contentHistory));
+            tabDice.addEventListener('click', () => switchTab(tabDice, contentDice));
+
+            // Lógica para la tirada de dado
+            rollButton.addEventListener('click', () => {
+                const newCaptcha = generateCaptcha();
+                popupMathProblemElement.textContent = newCaptcha.problem;
+                popupCaptchaAnswer = newCaptcha.answer;
+                popupMathCaptchaInput.value = "";
+                diceModal.classList.remove('hidden');
+                popupRecaptchaSolved = false;
+                popupRecaptchaCheckbox.classList.remove('bg-green-500');
+                popupRecaptchaIcon.classList.add('opacity-0');
+                popupConfirmButton.disabled = true;
+                popupMessage.textContent = "Por favor, completa la verificación.";
+            });
+
+            // Lógica para el reCAPTCHA del pop-up
+            popupRecaptchaCheck.addEventListener('click', () => {
+                popupRecaptchaSolved = !popupRecaptchaSolved;
+                if (popupRecaptchaSolved) {
+                    popupRecaptchaCheckbox.classList.add('bg-green-500');
+                    popupRecaptchaIcon.classList.remove('opacity-0');
+                    validateAndEnablePopup();
+                    popupMessage.textContent = "Verificación completada. ¡Confirma para tirar!";
+                } else {
+                    popupRecaptchaCheckbox.classList.remove('bg-green-500');
+                    popupRecaptchaIcon.classList.add('opacity-0');
+                    popupConfirmButton.disabled = true;
+                    popupMessage.textContent = "Por favor, completa la verificación.";
+                }
+            });
+
+            popupMathCaptchaInput.addEventListener('keyup', () => {
+                validateAndEnablePopup();
+            });
+
+            // Lógica para el botón de confirmar en el pop-up
+            popupConfirmButton.addEventListener('click', () => {
+                const userCaptchaAnswer = parseInt(popupMathCaptchaInput.value, 10);
+                if (!popupRecaptchaSolved) {
+                    popupMessage.textContent = "Debes completar la verificación de reCAPTCHA.";
+                    return;
+                }
+                if (userCaptchaAnswer !== popupCaptchaAnswer) {
+                    popupMessage.textContent = "Respuesta anti-bot incorrecta. Inténtalo de nuevo.";
+                    const newCaptcha = generateCaptcha();
+                    popupMathProblemElement.textContent = newCaptcha.problem;
+                    popupCaptchaAnswer = newCaptcha.answer;
+                    popupMathCaptchaInput.value = "";
+                    return;
+                }
+                diceModal.classList.add('hidden');
+                performDiceRoll();
+            });
+
+            function performDiceRoll() {
+                rollButton.disabled = true;
+                diceResult.textContent = diceEmojis[0];
+                diceMessage.textContent = "Tirando...";
+                
+                setTimeout(() => {
+                    const result = Math.floor(Math.random() * 6) + 1;
+                    diceResult.textContent = diceEmojis[result];
+                    diceMessage.textContent = `¡Has sacado un ${result}!`;
+                    rollButton.disabled = false;
+                    localStorage.setItem(DICE_COOLDOWN_KEY, Date.now());
+                }, 1000);
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            renderClaimHistory();
+
+            const initialCaptcha = generateCaptcha();
+            mathProblemElement.textContent = initialCaptcha.problem;
+            captchaAnswer = initialCaptcha.answer;
+        });
+    </script>
 </body>
 </html>
