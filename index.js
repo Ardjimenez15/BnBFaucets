@@ -230,7 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeLeft = DICE_COOLDOWN_MS - timeElapsed;
 
         if (timeLeft <= 0) {
-            location.reload();
+            rollButton.disabled = false;
+            rollButton.textContent = `¡Tirar!`;
+            diceCooldownMessage.textContent = `Puedes tirar de nuevo.`;
         } else {
             rollButton.disabled = true;
             const minutes = Math.floor(timeLeft / 60000);
@@ -289,6 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
         popupRecaptchaIcon.classList.add('opacity-0');
         popupConfirmButton.disabled = true;
         popupMessage.textContent = "Por favor, completa la verificación.";
+    });
+    
+    // Add a mousedown listener to the button to show a message if it's disabled
+    rollButton.addEventListener('mousedown', () => {
+        if (rollButton.disabled) {
+            diceMessage.textContent = diceCooldownMessage.textContent;
+        } else {
+            diceMessage.textContent = '';
+        }
     });
 
     // Logic for the pop-up reCAPTCHA
